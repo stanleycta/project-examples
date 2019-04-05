@@ -7,11 +7,9 @@ pipeline {
                 stage('1_Install') {
                     steps {
                         echo 'Installing Angular Packages ...'
-                    }
-                    
-                    steps {
                         echo 'Building Angular ...'
-                    }
+                    }                 
+                    
                 }
                 stage('2_Verification') {
                     steps {
