@@ -1,9 +1,9 @@
 pipeline {
     agent any
 
-    stages {
-        parallel{
-            stage('Angular'){
+    stages { 
+        stage('Angular'){
+            parallel{
                 stage('1_Install') {
                     steps {
                         echo 'Installing Angular Packages ...'
@@ -26,8 +26,8 @@ pipeline {
             }
         }
         
-        parallel{
-            stage('Unit Test'){
+        stage('Unit Test'){
+            parallel{            
                 stage('1_Angular') {
                     steps {
                         echo 'Running Angular UnitTest ...'
