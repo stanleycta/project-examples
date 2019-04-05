@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+    //  Change number for quick testing: 001
     stages { 
         stage('Angular'){
             parallel{
