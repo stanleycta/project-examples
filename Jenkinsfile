@@ -38,15 +38,66 @@ pipeline {
                 }
             }
         }
-        stage('ShipToOctopus') {
+        
+        stage('Code Analysis') {
             steps {
-                echo 'Deploying....'
+                echo 'Running SonarQube for static code analysis ...'
             }
         }
         
-        stage('HappyDance') {
+        stage('Acceptance Test') {
+            parallel{
+                stage('1_Provisioning'){
+                    steps {
+                        echo 'Creating resources for acceptance test ...'
+                    }
+                }
+                
+                 stage('2_Executing'){
+                    steps {
+                        echo 'Running the acceptance test ...'
+                    }
+                }
+                
+                 stage('3_Evaluating'){
+                    steps {
+                        echo 'Verifying the result of the acceptance test ...'
+                    }
+                }
+                
+                stage('Email Result'){
+                    steps {
+                        echo 'Emailing test results ...'
+                    }
+                }
+            }
+        }
+        
+        stage('Octopus') {
+            parallel{
+                stage('Packaging'){
+                    steps {
+                        echo 'Creating Nuget packages for Octopus....'
+                    }
+                }
+                
+                 stage('Uploading'){
+                    steps {
+                        echo 'Uploading Nuget packages to Octopus....'
+                    }
+                }
+                
+                 stage('Releasing'){
+                    steps {
+                        echo 'Creating Release in Octopus....'
+                    }
+                }
+            }
+        }
+        
+        stage('Dance') {
             steps {
-                echo 'Building..'
+                echo 'Everything went well, so let''s celebrate by dancing ...'
             }
         }
     }
