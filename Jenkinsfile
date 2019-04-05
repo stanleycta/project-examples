@@ -97,7 +97,7 @@ pipeline {
         
         stage('Dance') {
             steps {
-                echo 'Everything went well, so let''s celebrate by dancing ...'
+                echo 'Everything went well, so let`s celebrate by dancing ...'
             }
         }
     }
