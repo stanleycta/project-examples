@@ -32,6 +32,8 @@ pipeline {
         }
         
         stage('Unit Test'){
+             when { branch 'develop' }
+            
             parallel{            
                 stage('1_Angular') {
                     steps {
