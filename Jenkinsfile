@@ -1,42 +1,167 @@
 pipeline {
     agent any
-
-    stages {
-        stage('Install Angular') {
-            steps {
-                echo 'Building..'
+    //  Change number for quick testing: 001
+    
+    options{
+     retry(3)   
+    }
+    stages { 
+        stage('Angular'){
+            options { 
+                timestamps() 
+            }
+            when { 
+                anyOf { 
+                    branch 'master'; 
+                    branch 'develop' 
+                } 
+            }
+            parallel{
+                stage('1_Install') {
+                    steps {
+                        echo 'Installing Angular Packages ...'
+                        echo 'Building Angular ...'
+                    }                 
+                    
+                }
+                stage('2_Verification') {
+                    steps {
+                        echo 'Verifying folders/files creation ...'
+                    }
+                }
             }
         }
-        stage('Build Angular') {
-            steps {
-                echo 'Building..'
-            }
-        }
-        
         stage('Build C#') {
+            options { 
+                timestamps() 
+            }
+            when { 
+                anyOf { 
+                    branch 'master'; 
+                    branch 'develop' 
+                } 
+            }
             steps {
                 echo 'Building..'
-            }
-        }
-        stage('Angular UnitTest') {
-            steps {
-                echo 'Building..'
-            }
-        }
-        stage('C# UnitTest') {
-            steps {
-                echo 'Testing..'
-            }
-        }
-        stage('ShipToOctopus') {
-            steps {
-                echo 'Deploying....'
             }
         }
         
-        stage('HappyDance') {
+        stage('Unit Test'){
+          options { 
+                timestamps() 
+            }
+            when { 
+                anyOf { 
+                    branch 'master'; 
+                    branch 'develop' 
+                } 
+            }
+            parallel{            
+                stage('1_Angular') {
+                    steps {
+                        echo 'Running Angular UnitTest ...'
+                    }
+                }
+                stage('2_C#') {
+                    steps {
+                        echo 'Running C# UnitTest ...'
+                    }
+                }
+            }
+        }
+        
+        stage('Code Analysis') {
             steps {
-                echo 'Building..'
+                echo 'Running SonarQube for static code analysis ...'
+            }
+        }
+        
+        stage('Acceptance Test') {
+            parallel{
+                stage('1_Provisioning'){
+                    steps {
+                        echo 'Creating resources for acceptance test ...'
+                    }
+                }
+                
+                 stage('2_Executing'){
+                    steps {
+                        echo 'Running the acceptance test ...'
+                    }
+                }
+                
+                 stage('3_Evaluating'){
+                    steps {
+                        echo 'Verifying the result of the acceptance test ...'
+                    }
+                }
+                
+                stage('Email Result'){
+                    steps {
+                        echo 'Emailing test results ...'
+                    }
+                }
+            }
+        }
+        
+        stage('Octopus') {
+            parallel{
+                stage('Packaging'){
+                    steps {
+                        echo 'Creating Nuget packages for Octopus....'
+                    }
+                }
+                
+                 stage('Uploading'){
+                    steps {
+                        echo 'Uploading Nuget packages to Octopus....'
+                    }
+                }
+                
+                 stage('Releasing'){
+                    steps {
+                        echo 'Creating Release in Octopus....'
+                    }
+                }
+            }
+        }
+        
+        stage('Dance') {
+            steps {
+                echo 'Everything went well, so let`s celebrate by dancing ...'
+            }
+        }
+        
+         stage('Sequential') {
+            environment {
+                FOR_SEQUENTIAL = "some-value"
+            }
+            stages {
+                stage('Parallel In Sequential') {
+                    parallel {
+                        stage('In Parallel 1') {
+                            steps {
+                                echo "In Parallel 1"
+                                
+                                powershell(returnStatus: true, script: '''
+                                Start-Sleep -Seconds 10
+                                $(Get-Date)
+                                ''')
+                            }
+                        }
+                        stage('In Parallel 2') {
+                            steps {
+                                echo "In Parallel 2"
+                                powershell(returnStatus: true, script: '''
+                                Start-Sleep -Seconds 10
+                                
+                                $(Get-Date)
+                                ''')
+   
+                            }
+                        }
+                    }
+                }
             }
         }
     }
