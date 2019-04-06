@@ -27,11 +27,8 @@ pipeline {
 
                             Write-Host("GIT_AUTHOR_NAME : $ENV:GIT_AUTHOR_NAME")
                             Write-Host("GIT_AUTHOR_EMAIL : $ENV:GIT_AUTHOR_EMAIL")
-                            Write-Host("GIT_AUTHOR_DATE : $ENV:GIT_AUTHOR_DATE") 
                             Write-Host("GIT_COMMITTER_NAME : $ENV:GIT_COMMITTER_NAME") 
                             Write-Host("GIT_COMMITTER_EMAIL : $ENV:GIT_COMMITTER_EMAIL") 
-                            Write-Host("GIT_COMMITTER_DATE  : $ENV:GIT_COMMITTER_DATE ") 
-                            Write-Host("EMAIL : $ENV:EMAIL ") 
                
                             Write-Host("BUILD_NUMBER : $ENV:BUILD_NUMBER")
                             Write-Host("BUILD_ID : $ENV:BUILD_ID")
@@ -43,11 +40,11 @@ pipeline {
                             Write-Host("EXECUTOR_NUMBER : $ENV:EXECUTOR_NUMBER")
                             Write-Host("WORKSPACE : $ENV:WORKSPACE")
                             Write-Host("GIT_BRANCH : $ENV:GIT_BRANCH")
-                            Write-Host("SVN_REVISION : $ENV:SVN_REVISION")
-                            Write-Host("CVS_BRANCH : $ENV:CVS_BRANCH")
-                            Write-Host("GIT_URL : $ENV:GIT_GIT_URLCOMMIT")
                             Write-Host("GIT_COMMIT : $ENV:GIT_COMMIT")
-
+                            
+                            $List = Get-ChildItem -Path $ENV:WORKSPACE -Recurse
+                            $List | Where-object Mode -Like "d*" | Select-Object Name, Parent, CreationTime, CreationTimeUtc, Attributes
+                            
                         ''')
                     }                 
                     
