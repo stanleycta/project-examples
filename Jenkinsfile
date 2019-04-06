@@ -2,7 +2,7 @@ pipeline {
     agent any
     //  Change number for quick testing: 001
     
-    opstion{
+    options{
      retry(3)   
     }
     stages { 
