@@ -3,7 +3,7 @@ pipeline {
     //  Change number for quick testing: 006
     
     options{
-     retry(3)   
+        retry(3)   
     }
     stages { 
         stage('Angular'){
@@ -24,6 +24,30 @@ pipeline {
                         powershell(returnStatus: true, script: '''
                             $(Get-Date)
                             Get-Service | Where-Object Status -eq "Stopped" | Sort-Object Name | Format-table -autosize
+
+                            Write-Host("GIT_AUTHOR_NAME : $ENV:GIT_AUTHOR_NAME")
+                            Write-Host("GIT_AUTHOR_EMAIL : $ENV:GIT_AUTHOR_EMAIL")
+                            Write-Host("GIT_AUTHOR_DATE : $ENV:GIT_AUTHOR_DATE") 
+                            Write-Host("GIT_COMMITTER_NAME : $ENV:GIT_COMMITTER_NAME") 
+                            Write-Host("GIT_COMMITTER_EMAIL : $ENV:GIT_COMMITTER_EMAIL") 
+                            Write-Host("GIT_COMMITTER_DATE  : $ENV:GIT_COMMITTER_DATE ") 
+                            Write-Host("EMAIL : $ENV:EMAIL ") 
+               
+                            Write-Host("BUILD_NUMBER : $ENV:BUILD_NUMBER")
+                            Write-Host("BUILD_ID : $ENV:BUILD_ID")
+                            Write-Host("BUILD_URL : $ENV:BUILD_URL")
+                            Write-Host("NODE_NAME : $ENV:NODE_NAME")
+                            Write-Host("JOB_NAME : $ENV:JOB_NAME")
+                            Write-Host("BUILD_TAG : $ENV:BUILD_TAG")
+                            Write-Host("JENKINS_URL : $ENV:JENKINS_URL")
+                            Write-Host("EXECUTOR_NUMBER : $ENV:EXECUTOR_NUMBER")
+                            Write-Host("WORKSPACE : $ENV:WORKSPACE")
+                            Write-Host("GIT_BRANCH : $ENV:GIT_BRANCH")
+                            Write-Host("SVN_REVISION : $ENV:SVN_REVISION")
+                            Write-Host("CVS_BRANCH : $ENV:CVS_BRANCH")
+                            Write-Host("GIT_URL : $ENV:GIT_GIT_URLCOMMIT")
+                            Write-Host("GIT_COMMIT : $ENV:GIT_COMMIT")
+
                         ''')
                     }                 
                     
