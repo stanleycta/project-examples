@@ -10,6 +10,12 @@ pipeline {
             options { 
                 timestamps() 
             }
+            when { 
+                anyOf { 
+                    branch 'master'; 
+                    branch 'develop' 
+                } 
+            }
             parallel{
                 stage('1_Install') {
                     steps {
@@ -26,14 +32,30 @@ pipeline {
             }
         }
         stage('Build C#') {
+            options { 
+                timestamps() 
+            }
+            when { 
+                anyOf { 
+                    branch 'master'; 
+                    branch 'develop' 
+                } 
+            }
             steps {
                 echo 'Building..'
             }
         }
         
         stage('Unit Test'){
-             when { branch 'develop' }
-            
+          options { 
+                timestamps() 
+            }
+            when { 
+                anyOf { 
+                    branch 'master'; 
+                    branch 'develop' 
+                } 
+            }
             parallel{            
                 stage('1_Angular') {
                     steps {
