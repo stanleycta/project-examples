@@ -111,9 +111,6 @@ pipeline {
         }
         
          stage('Sequential') {
-            agent {
-                label 'for-sequential'
-            }
             environment {
                 FOR_SEQUENTIAL = "some-value"
             }
