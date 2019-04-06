@@ -1,8 +1,15 @@
 pipeline {
     agent any
     //  Change number for quick testing: 001
+    
+    opstion{
+     retry(3)   
+    }
     stages { 
         stage('Angular'){
+            options { 
+                timestamps() 
+            }
             parallel{
                 stage('1_Install') {
                     steps {
