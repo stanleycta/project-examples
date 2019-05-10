@@ -8,7 +8,8 @@ pipeline {
                     branch 'develop';
                     branch 'preprod';
                     branch 'master';
-                    branch 'sonar'
+                    branch 'sonar';
+                    tag "Version_1*"
                 }
             }
             steps {
@@ -21,7 +22,8 @@ pipeline {
                     branch 'develop';
                     branch 'preprod';
                     branch 'master';
-                    branch 'sonar'
+                    branch 'sonar';
+                    tag "Version_1*"
                 }
             }
             steps {
@@ -34,7 +36,8 @@ pipeline {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
-                    branch 'master'
+                    branch 'master';
+                    tag "Version_1*"
                 }
             }
             steps {
@@ -47,7 +50,8 @@ pipeline {
                 branch 'sonar'                
             }
             steps {
-                echo 'Building..'
+                def msg = powershell(returnStdout: true, script: 'Write-Output "PowerShell is mighty!"')
+                println msg
             }
         }
         
@@ -56,7 +60,8 @@ pipeline {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
-                    branch 'master'
+                    branch 'master';
+                    tag "Version_1*"
                 }
             }
             steps {
@@ -68,7 +73,8 @@ pipeline {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
-                    branch 'master'
+                    branch 'master';
+                    tag "Version_1*"
                 }
             }
             steps {
@@ -80,7 +86,8 @@ pipeline {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
-                    branch 'master'
+                    branch 'master';
+                    tag "Version_1*"
                 }
             }
             steps {
