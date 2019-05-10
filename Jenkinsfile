@@ -3,7 +3,7 @@ pipeline {
 
     stages {
         stage('Install Angular') {
-            when{
+            when {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
@@ -17,7 +17,7 @@ pipeline {
             }
         }
         stage('Build Angular') {
-             when{
+             when {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
@@ -32,7 +32,7 @@ pipeline {
         }
         
         stage('Build C#') {
-             when{
+             when {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
@@ -46,9 +46,7 @@ pipeline {
         }
         
         stage('Code Analysis') {
-             when{
-                branch 'sonar'                
-            }
+             when { branch 'sonar' }
             steps {
                 def msg = powershell(returnStdout: true, script: 'Write-Output "PowerShell is mighty!"')
                 println msg
@@ -56,7 +54,7 @@ pipeline {
         }
         
         stage('Angular UnitTest') {
-             when{
+             when {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
@@ -69,7 +67,7 @@ pipeline {
             }
         }
         stage('C# UnitTest') {
-             when{
+             when {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
@@ -82,7 +80,7 @@ pipeline {
             }
         }
         stage('ShipToOctopus') {
-            when{
+            when {
                 anyOf{
                     branch 'develop';
                     branch 'preprod';
